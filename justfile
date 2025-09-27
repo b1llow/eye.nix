@@ -17,12 +17,12 @@ build targetdir=default_targetdir profile=default_profile: (setup targetdir prof
 	meson compile -C {{builddir}}/{{targetdir}}/{{profile}}
 
 test targetdir=default_targetdir profile=default_profile: (build targetdir profile)
-	meson test -C {{builddir}}/{{targetdir}}/{{profile}} --print-error-stack --verbose
+	meson test -C {{builddir}}/{{targetdir}}/{{profile}} --verbose
 
 install targetdir=default_targetdir profile=default_profile: (build targetdir profile)
 	meson install -C {{builddir}}/{{targetdir}}/{{profile}}
 
-rtest profile="debug": (install "rizin" profile)
+rtest profile="debug": (install "rizin" profile) (test "rizin" profile)
 	#!/usr/bin/env bash
 	export PATH=`realpath {{installdir}}`/bin:$PATH
 	rz-test -qi rizin/test/db/cmd/cmd_aL
