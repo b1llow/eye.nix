@@ -22,7 +22,13 @@ test targetdir=default_targetdir profile=default_profile: (build targetdir profi
 install targetdir=default_targetdir profile=default_profile: (build targetdir profile)
 	meson install -C {{builddir}}/{{targetdir}}/{{profile}}
 
-asmtest target='h8500' targetdir="rizin" profile="debug": (install targetdir profile)
+rtest profile="debug": (install "rizin" profile)
+	#!/usr/bin/env bash
+	export PATH=`realpath {{installdir}}`/bin:$PATH
+	rz-test -qi rizin/test/db/cmd/cmd_aL
+	rz-test -qi rizin/test/db/cmd/cmd_list
+
+asmtest target='h8500' profile="debug": (install "rizin" profile) (rtest profile)
 	#!/usr/bin/env bash
 	export PATH=`realpath {{installdir}}`/bin:$PATH
 	rz-test -qi rizin/test/db/asm/{{target}}
