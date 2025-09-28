@@ -24,17 +24,21 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-        inherit (pkgs) lib nixfmt-tree makeWrapper;
+        inherit (pkgs) lib nixfmt-tree swig libclang uv pkg-config;
       in
       {
         formatter = nixfmt-tree;
 
         devShells = {
           default = pkgs.mkShell {
+            hardeningDisable = [ "format" ];
             inputFrom = [ b.packages.${system}.rizin ];
-            packages = with pkgs; [
+            packages = [
               uv
+              pkg-config
             ];
+            nativeBuildInputs = [ swig ];
+            buildInputs = [ b.packages.${system}.rizin libclang ];
           };
         };
       }
