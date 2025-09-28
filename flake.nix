@@ -24,7 +24,16 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-        inherit (pkgs) lib nixfmt-tree swig libclang uv pkg-config;
+        inherit (pkgs)
+          lib
+          nixfmt-tree
+          swig
+          libclang
+          lldb
+          meson
+          ninja
+          just
+          ;
       in
       {
         formatter = nixfmt-tree;
@@ -34,11 +43,16 @@
             hardeningDisable = [ "format" ];
             inputFrom = [ b.packages.${system}.rizin ];
             packages = [
-              uv
-              pkg-config
+              meson
+              ninja
+              just
+              lldb
             ];
             nativeBuildInputs = [ swig ];
-            buildInputs = [ b.packages.${system}.rizin libclang ];
+            buildInputs = [
+              b.packages.${system}.rizin
+              libclang
+            ];
           };
         };
       }

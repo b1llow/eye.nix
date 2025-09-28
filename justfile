@@ -8,10 +8,10 @@ alias t := test
 alias i := install
 alias at := asmtest
 
-setup targetdir=default_targetdir profile=default_profile:
+setup targetdir=default_targetdir profile=default_profile args='':
 	@mkdir -p {{builddir}}/{{targetdir}}/{{profile}}
 	@mkdir -p {{installdir}}
-	meson setup --buildtype={{profile}} --prefix=`realpath {{installdir}}` {{builddir}}/{{targetdir}}/{{profile}} {{targetdir}}
+	meson setup {{args}} --buildtype={{profile}} --prefix=`realpath {{installdir}}` {{builddir}}/{{targetdir}}/{{profile}} {{targetdir}}
 
 build targetdir=default_targetdir profile=default_profile: (setup targetdir profile)
 	meson compile -C {{builddir}}/{{targetdir}}/{{profile}}
