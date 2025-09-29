@@ -33,6 +33,7 @@
           meson
           ninja
           just
+          stdenv
           ;
       in
       {
@@ -46,8 +47,8 @@
               meson
               ninja
               just
-              lldb
-            ];
+            ]
+            ++ lib.optionals (!stdenv.isDarwin) [ lldb ];
             nativeBuildInputs = [ swig ];
             buildInputs = [
               b.packages.${system}.rizin
