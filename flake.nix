@@ -33,6 +33,7 @@
           meson
           ninja
           just
+          python3Packages
           stdenv
           ;
       in
@@ -49,11 +50,18 @@
               just
             ]
             ++ lib.optionals (!stdenv.isDarwin) [ lldb ];
+            venvDir = ".nix-venv";
             nativeBuildInputs = [ swig ];
             buildInputs = [
               b.packages.${system}.rizin
               libclang
-            ];
+            ]
+            ++ (with python3Packages; [
+              venvShellHook
+              pyyaml
+              rzpipe
+              requests
+            ]);
           };
         };
       }
