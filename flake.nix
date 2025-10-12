@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs2505.url = "github:NixOS/nixpkgs/nixos-25.05";
+#    nixpkgs2505.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
     b = {
       url = "github:b1llow/nix";
@@ -15,7 +15,6 @@
     {
       self,
       nixpkgs,
-      nixpkgs2505,
       flake-utils,
       b,
       ...
@@ -37,10 +36,7 @@
           ninja
           just
           python3Packages
-          ;
-        pkgs2505 = import nixpkgs2505 { inherit system; };
-        inherit (pkgs2505)
-          llvmPackages_16
+	  llvmPackages_20
           ;
       in
       {
@@ -54,7 +50,7 @@
               meson
               ninja
               just
-              llvmPackages_16.clang-tools
+              llvmPackages_20.clang-tools
             ]
             ++ lib.optionals (!stdenv.isDarwin) [ lldb ];
             venvDir = ".nix-venv";
