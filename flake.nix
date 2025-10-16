@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-#    nixpkgs2505.url = "github:NixOS/nixpkgs/nixos-25.05";
+    #    nixpkgs2505.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
     b = {
       url = "github:b1llow/nix";
@@ -36,7 +36,7 @@
           ninja
           just
           python3Packages
-	  llvmPackages_20
+          llvmPackages_20
           ;
       in
       {
@@ -45,7 +45,10 @@
         devShells = {
           default = pkgs.mkShell {
             hardeningDisable = [ "format" ];
-            inputFrom = [ b.packages.${system}.rizin ];
+            inputFrom = [
+              b.packages.${system}.rizin
+              pkgs.cutter
+            ];
             packages = [
               meson
               ninja
@@ -54,18 +57,35 @@
             ]
             ++ lib.optionals (!stdenv.isDarwin) [ lldb ];
             venvDir = ".nix-venv";
-            nativeBuildInputs = [ swig ];
+            nativeBuildInputs = [
+              swig
+              pkgs.cmake
+              pkgs.pkg-config
+            ];
             buildInputs = [
               b.packages.${system}.rizin
               libclang
+
+              # for rizin build
               pkgs.bzip2
+
+              # for cutter build
+              pkgs.qt6.full
+              pkgs.graphviz
             ]
             ++ (with python3Packages; [
               venvShellHook
+              # for rizin test
               pyyaml
               rzpipe
               requests
               gitpython
+
+              # for cutter build
+              shiboken6
+              pyside6
+
+              # for general use
               ipython
             ]);
           };
