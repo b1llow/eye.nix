@@ -42,7 +42,7 @@ clean:
 	rm -rf {{builddir}} {{installdir}}
 
 setup-cutter profile=default_profile:
-	cmake -B build/cutter/{{profile}} -S cutter -DCUTTER_USE_BUNDLED_RIZIN=OFF -DCUTTER_ENABLE_PYTHON=ON -DCUTTER_ENABLE_PYTHON_BINDINGS=ON -DCUTTER_ENABLE_GRAPHVIZ=ON -DCUTTER_QT6=ON -GNinja -DCMAKE_BUILD_TYPE={{profile}}
+	cmake -B build/cutter/{{profile}} -S cutter -DCUTTER_USE_BUNDLED_RIZIN=OFF -DCUTTER_ENABLE_PYTHON=ON -DCUTTER_ENABLE_PYTHON_BINDINGS=OFF -DCUTTER_ENABLE_GRAPHVIZ=ON -DCUTTER_QT6=ON -GNinja -DCMAKE_BUILD_TYPE={{profile}}
 build-cutter profile=default_profile:
 	cmake --build build/cutter/{{profile}}
 clean-cutter profile=default_profile:
