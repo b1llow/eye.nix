@@ -58,7 +58,7 @@
         };
 
         devShells = {
-          default = pkgs.mkShell {
+          default = (pkgs.mkShell.override { stdenv = llvmPackages_20.stdenv; }) {
             hardeningDisable = [ "format" ];
             inputFrom = [
               b.packages.${system}.rizin
