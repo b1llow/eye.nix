@@ -38,9 +38,24 @@
           python3Packages
           llvmPackages_20
           ;
+        bpkgs = b.packages.${system};
+
+        rizin081 = (
+          (bpkgs.rizin.override {
+            debug = true;
+            rev = "v0.8.1";
+            sha256 = "sha256-JuaU5Xil4ttLWuZoWkCHYmMsigSuc+kRqSRcgg5tXqA=";
+            mesonDepsSha256 = "sha256-CbQn3B2IWK2o3pQEOtkONcA7775YJ6ZnLQ9T3h94cIM=";
+          })
+        );
+        rizin = bpkgs.rizin.override { debug = true; };
       in
       {
         formatter = nixfmt-tree;
+
+        packages = {
+          inherit rizin;
+        };
 
         devShells = {
           default = pkgs.mkShell {
@@ -50,8 +65,6 @@
               pkgs.cutter
             ];
             packages = [
-              meson
-              ninja
               just
               llvmPackages_20.clang-tools
             ]
@@ -63,11 +76,15 @@
               pkgs.pkg-config
             ];
             buildInputs = [
-              b.packages.${system}.rizin
+              rizin
+
               libclang
+              meson
+              ninja
 
               # for rizin build
               pkgs.bzip2
+              pkgs.openssl.dev
 
               # for cutter build
               pkgs.qt6.full
@@ -87,6 +104,7 @@
 
               # for general use
               ipython
+              pip
             ]);
           };
         };
