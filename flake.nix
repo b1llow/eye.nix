@@ -59,7 +59,7 @@
 
         devShells = {
           default = (pkgs.mkShell.override { stdenv = llvmPackages_20.stdenv; }) {
-            hardeningDisable = [ "format" ];
+            hardeningDisable = [ "all" ];
             inputFrom = [
               b.packages.${system}.rizin
               pkgs.cutter
@@ -67,6 +67,7 @@
             packages = [
               just
               llvmPackages_20.clang-tools
+		llvmPackages_20.libllvm
             ]
             ++ lib.optionals (!stdenv.isDarwin) [ lldb ];
             venvDir = ".nix-venv";
