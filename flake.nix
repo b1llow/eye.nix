@@ -67,9 +67,13 @@
             packages = [
               just
               llvmPackages_20.clang-tools
-		llvmPackages_20.libllvm
+              llvmPackages_20.libllvm
+              pkgs.gdb
             ]
-            ++ lib.optionals (!stdenv.isDarwin) [ lldb ];
+            ++ lib.optionals (!stdenv.isDarwin) [
+              lldb
+              pkgs.valgrind
+            ];
             venvDir = ".nix-venv";
             nativeBuildInputs = [
               swig
