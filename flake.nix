@@ -69,6 +69,8 @@
               llvmPackages_20.clang-tools
               llvmPackages_20.libllvm
               pkgs.gdb
+              pkgs.perf
+              pkgs.act
             ]
             ++ lib.optionals (!stdenv.isDarwin) [
               lldb
