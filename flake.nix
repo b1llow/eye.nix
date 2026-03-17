@@ -61,8 +61,8 @@
           default = (pkgs.mkShell.override { stdenv = llvmPackages_20.stdenv; }) {
             hardeningDisable = [ "all" ];
             inputFrom = [
-              b.packages.${system}.rizin
               pkgs.cutter
+              pkgs.rizin
             ];
             packages = [
               just
@@ -83,7 +83,7 @@
               pkgs.pkg-config
             ];
             buildInputs = [
-              rizin
+              # rizin
 
               libclang
               meson
@@ -112,6 +112,10 @@
               # for general use
               ipython
               pip
+              # for some xxx
+              pandas
+              beautifulsoup4
+              lxml
             ]);
           };
         };
