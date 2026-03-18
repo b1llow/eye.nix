@@ -1,6 +1,6 @@
 builddir := absolute_path('build')
 installdir := absolute_path('install')
-default_profile := 'debug'
+default_profile := 'debugoptimized'
 default_targetdir := 'rizin'
 default_options := '' #'--native-file=asan.ini'
 

@@ -49,6 +49,14 @@
           })
         );
         rizin = bpkgs.rizin.override { debug = true; };
+
+        m68kPkgs = import nixpkgs {
+          inherit system;
+          crossSystem = {
+            config = "m68k-linux-gnu";
+          };
+        };
+
       in
       {
         formatter = nixfmt-tree;
@@ -60,14 +68,25 @@
         devShells = {
           default = (pkgs.mkShell.override { stdenv = llvmPackages_20.stdenv; }) {
             hardeningDisable = [ "all" ];
+            venvDir = ".nix-venv";
+            shellHook = ''
+              alias clang-format-20=clang-format
+            '';
+
             inputFrom = [
               pkgs.cutter
               pkgs.rizin
             ];
             packages = [
+              (pkgs.writeShellScriptBin "clang-format-20" ''
+                exec ${lib.getExe' llvmPackages_20.clang-tools "clang-format"} "$@"
+              '')
+
               just
               llvmPackages_20.clang-tools
               llvmPackages_20.libllvm
+              m68kPkgs.buildPackages.binutils
+
               pkgs.gdb
               pkgs.perf
               pkgs.act
@@ -76,7 +95,7 @@
               lldb
               pkgs.valgrind
             ];
-            venvDir = ".nix-venv";
+
             nativeBuildInputs = [
               swig
               pkgs.cmake
@@ -94,7 +113,6 @@
               pkgs.openssl.dev
 
               # for cutter build
-              pkgs.qt6.full
               pkgs.graphviz
             ]
             ++ (with python3Packages; [
@@ -117,6 +135,7 @@
               beautifulsoup4
               lxml
             ]);
+
           };
         };
       }
