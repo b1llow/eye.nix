@@ -1,3 +1,7 @@
+*~
+*bak
+*.save
+
 # Devenv
 .devenv*
 devenv.local.nix
